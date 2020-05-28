@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:gravity="center_horizontal|center_vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:background="#E1F5FE"
+        android:clickable="false"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="97dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <Button
+                android:id="@+id/btnMod1"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="40dp"
+                android:background="#4DB6AC"
+                android:text="@string/modulo_1"
+                android:textColor="#FFFFFF" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/txtMod1"
+                android:layout_width="100dp"
+                android:layout_height="28dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="11dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="48dp"
+                android:layout_toEndOf="@+id/btnMod1"
+                android:layout_toRightOf="@+id/btnMod1"
+                android:background="#FF5252"
+                android:gravity="center_horizontal"
+                android:padding="3dp"
+                android:text="@string/desconectado"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnDesconectarMod1"
+                android:layout_width="138dp"
+                android:layout_height="19dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="36dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="39dp"
+                android:layout_marginEnd="26dp"
+                android:layout_marginRight="26dp"
+                android:layout_marginBottom="4dp"
+                android:background="#FF5252"
+                android:text="@string/desconectar"
+                android:textColor="#FFFDFD"
+                android:textSize="10sp"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="57dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnMod2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#4DB6AC"
+                android:text="@string/modulo_2"
+                android:textColor="#FFFFFF" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/txtMod2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#FF5252"
+                android:gravity="center_horizontal"
+                android:padding="3dp"
+                android:text="@string/desconectado"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="102dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnMod3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#4DB6AC"
+                android:text="@string/modulo_3"
+                android:textColor="#FFFFFF" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/txtMod3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#00C853"
+                android:gravity="center_horizontal"
+                android:padding="3dp"
+                android:text="@string/conectado"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="62dp" />
+
+        <Button
+            android:id="@+id/btnConectar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#90CAF9"
+            android:text="@string/conectar"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+</LinearLayout>
