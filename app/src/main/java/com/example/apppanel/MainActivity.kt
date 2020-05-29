@@ -63,15 +63,20 @@ class MainActivity : AppCompatActivity() {
         // Botones para ingresar a las graficas de cada modulo
         btnMod1.setOnClickListener(){view ->
             val i = Intent(this, Graficas::class.java)
+            i.putExtra("nombreModulo", "Modulo1")
             startActivity(i)
         }
 
         btnMod2.setOnClickListener(){view ->
-            Toast.makeText(this@MainActivity, "Modulo 2", Toast.LENGTH_SHORT).show()
+            val i = Intent(this, Graficas::class.java)
+            i.putExtra("nombreModulo", "Modulo2")
+            startActivity(i)
         }
 
         btnMod3.setOnClickListener(){view ->
-            Toast.makeText(this@MainActivity, "Modulo 3", Toast.LENGTH_SHORT).show()
+            val i = Intent(this, Graficas::class.java)
+            i.putExtra("nombreModulo", "Modulo3")
+            startActivity(i)
         }
 
         // Botones para la conexión bluetooth
@@ -109,6 +114,8 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 // Se recupera la dirección MAC del dispositivo seleccionado
                 m_address = data!!.getStringExtra("Device_address")
+                Log.v("MAC: ", m_address)
+
                 ConnectToDevice(this).execute()
             }
         }

@@ -49,7 +49,7 @@ class ConectarBluetooth : AppCompatActivity() {
             startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
         }
 
-        // Obtiene la lista de conexiones bluetooth sincronizadas con el dispositivo
+        // Obtiene la direccion MAC del dispositivo a conectarse
         pairedDeviceList()
 
         btnActualizar.setOnClickListener(){pairedDeviceList()}
