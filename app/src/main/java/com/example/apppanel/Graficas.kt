@@ -6,10 +6,10 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.AsyncTask
-import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -34,9 +34,13 @@ class Graficas : AppCompatActivity() {
         lateinit var m_address: String
         lateinit var btnConectar: Button
 
-        lateinit var mmInStream: InputStream
-        lateinit var mmOutStream: OutputStream
-        private val mmBuffer: ByteArray = ByteArray(1024) // mmBuffer store for the stream
+        // Defines several constants used when transmitting messages between the
+        // service and the UI.
+        const val MESSAGE_READ: Int = 0
+        const val MESSAGE_WRITE: Int = 1
+        const val MESSAGE_TOAST: Int = 2
+
+        lateinit var mHandler: Handler
     }
 
 
@@ -56,10 +60,13 @@ class Graficas : AppCompatActivity() {
     )
 
     lateinit var txtTituloModulo: TextView
+    lateinit var txtViewData: TextView
     lateinit var moduloActual: Map<String, String>
 
     val SCREEN_ORIENTATION_SENSOR_LANDSCAPE = 6
     val REQUEST_ENABLE_BLUETOOTH = 1
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +75,7 @@ class Graficas : AppCompatActivity() {
 
         txtTituloModulo = findViewById(R.id.txtTituloModulo)
         btnConectar = findViewById(R.id.btnConectar)
+        txtViewData = findViewById(R.id.txtViewData)
 
         if (intent.extras != null) {
             val nombreModulo = intent.extras!!["nombreModulo"] as String
@@ -94,6 +102,59 @@ class Graficas : AppCompatActivity() {
             } else{
                 ConnectToDevice(this).execute()
             }
+
+            mHandler = object : Handler() {
+                override fun handleMessage(msg: Message?) {
+                    when(msg!!.what){
+                        MESSAGE_READ -> {
+                            //val readBuf = msg.obj as ByteArray
+                            //val readMessage = String(readBuf, 0, msg.arg1)
+                            val readMessage = msg.obj as String
+                            runOnUiThread {
+                                txtViewData.text = readMessage
+                            }
+                        }
+                        else -> {
+                            print("khe")
+                        }
+                    }
+                }
+            }
+
+            //val BTCom = Thread(BluetoothCom(m_bluetoothSocket!!, mHandler))
+            //BTCom.start()
+        }
+    }
+
+
+
+    private class BluetoothCom(BTSocket: BluetoothSocket, handler: Handler):Runnable{
+
+        private val mmSocket: BluetoothSocket = BTSocket
+        private val mmInStream: InputStream = mmSocket.inputStream
+        private val mmOutStream: OutputStream? = mmSocket.outputStream
+        private val handler = handler
+        var msg = ""
+        var ch: Byte = 0.toByte()
+        override fun run() {
+            var numBytes: Int = 0 // bytes returned from read()
+            // Keep listening to the InputStream until an exception occurs.
+            while (true) {
+                if(mmInStream.available()>0) {
+                    // Read from the InputStream.
+                    msg = ""
+                    ch = 0.toByte()
+                    while(ch.toString()!="10") {
+                        ch = mmInStream.read().toByte()
+                        numBytes++;
+                        msg+=ch.toChar();
+                    }
+
+                    val readMsg = handler.obtainMessage(
+                        MESSAGE_READ, msg)
+                    readMsg.sendToTarget()
+                }
+            }
         }
     }
 
@@ -108,6 +169,23 @@ class Graficas : AppCompatActivity() {
             } catch (e: IOException){
                 e.printStackTrace()
             }
+        }
+    }
+
+    // Función para enviar datos
+    private fun sendCommand(input: String){
+        if(m_bluetoothSocket != null){
+            try {
+                m_bluetoothSocket!!.outputStream.write(input.toByteArray())
+            } catch (e: IOException){
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun actualizarValores(incomingMessage: String){
+        runOnUiThread{
+            txtViewData.text = incomingMessage
         }
     }
 
@@ -142,8 +220,6 @@ class Graficas : AppCompatActivity() {
                     // Se realiza la conexión con el modulo
                     m_bluetoothSocket!!.connect()
 
-                    mmInStream = m_bluetoothSocket!!.inputStream
-                    mmOutStream = m_bluetoothSocket!!.outputStream
                 }
             } catch (e: IOException){
                 connectSuccess = false
@@ -160,8 +236,12 @@ class Graficas : AppCompatActivity() {
                 m_isConnected = true
                 Toast.makeText(this.context, "Conectado con éxito", Toast.LENGTH_SHORT)
                 btnConectar.visibility = View.GONE
+                val BTCom = Thread(BluetoothCom(m_bluetoothSocket!!, mHandler))
+                BTCom.start()
             }
             m_progress.dismiss()
         }
     }
+
+
 }
